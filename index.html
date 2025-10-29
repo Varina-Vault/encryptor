@@ -68,14 +68,22 @@
         #password-toggle:hover { color: var(--primary-color); }
         #password-toggle:active { transform: translateY(calc(-50% + 1px)); }
         .btn {
-            flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; 
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; 
             border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; color: var(--primary-color);
             background: transparent; border: 1px solid var(--primary-color);
             transition: background-color 0.2s, color 0.2s, opacity 0.3s; text-transform: uppercase; letter-spacing: 1.25px;
         }
         .btn:hover:not(:disabled) { background-color: var(--primary-color); color: #000; }
         .btn:disabled { color: #555; border-color: #555; cursor: not-allowed; opacity: 0.7; }
-        .action-buttons { display: flex; gap: 1rem; }
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap; /* CHO PHÉP XUỐNG DÒNG */
+            gap: 1rem;
+        }
+        .action-buttons .btn {
+            flex-grow: 1; /* CÁC NÚT SẼ CỐ GẮNG GIÃN RA ĐỀU NHAU */
+            flex-basis: 200px; /* CHIỀU RỘNG TỐI THIỂU TRƯỚC KHI XUỐNG DÒNG */
+        }
         .action-icon-btn {
             position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; background: transparent; 
             border: 1px solid transparent; border-radius: 50%; 
@@ -199,6 +207,7 @@
                 ])
             };
             let state = { inputType: CONFIG.MODES.TEXT, processedFileBuffer: null, processedFileName: '' };
+            let notificationTimer = null;
     
             const clearResults = () => {
                 DOM.textOutput.value = '';
@@ -413,7 +422,7 @@
                         return showNotification('Nothing to copy.', 'error');
                     }
                     const temp = document.createElement("textarea"); temp.value = textToCopy;
-                    temp.style.position = 'absolute'; temp.style.left = '-9999px';
+                    temp.style.position = 'fixed'; temp.style.opacity = '0'; temp.style.pointerEvents = 'none';
                     document.body.appendChild(temp); let success = false;
                     try { temp.select(); success = document.execCommand('copy'); } 
                     catch (err) { console.error('Copy failed', err); }
