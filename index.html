@@ -11,6 +11,7 @@
         :root {
             --bg-color: #121212; --surface-color: #1e1e1e; --primary-color: #03dac6;
             --on-bg-color: #e0e0e0; --on-surface-color: #ffffff; --error-color: #cf6679;
+            --input-bg: #2c2c2c; --input-bg-hover: #333333; --input-bg-focus: #373737; --output-bg: #252525;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -27,20 +28,32 @@
         .card.dragover { box-shadow: 0 0 0 2px var(--primary-color), 0 8px 16px rgba(0,0,0,0.3); }
         .card h2 { display: flex; align-items: center; gap: 10px; color: var(--primary-color); font-weight: 500; }
         .form-group { display: flex; flex-direction: column; gap: 8px; }
-        .form-group label { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .form-group label {
+            font-size: 0.8rem; font-weight: 500; color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase; letter-spacing: 1.25px;
+        }
         .password-wrapper { position: relative; display: flex; align-items: center; }
         textarea, input[type="password"], input[type="text"] {
-            background-color: #2c2c2c; color: var(--on-bg-color); border: 1px solid #444; border-radius: 4px; padding: 12px;
-            font-size: 1rem; font-family: 'Roboto', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; resize: vertical; width: 100%;
+            background-color: var(--input-bg); color: var(--on-bg-color);
+            border: none; border-radius: 4px; padding: 12px;
+            font-size: 1rem; font-family: 'Roboto', sans-serif; 
+            transition: background-color 0.3s, box-shadow 0.3s; 
+            resize: vertical; width: 100%;
         }
         textarea { display: block; min-height: 120px; padding-right: 48px; }
+        input[type="password"]:hover, input[type="text"]:hover { background-color: var(--input-bg-hover); }
         textarea:focus, input[type="password"]:focus, input[type="text"]:focus {
-            outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.3);
+            outline: none; background-color: var(--input-bg-focus);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         #password-toggle {
-            position: absolute; right: 0; height: 100%; padding: 0 12px; background: none; border: none;
-            color: rgba(255, 255, 255, 0.7); cursor: pointer; display: flex; align-items: center;
+            position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+            width: 40px; height: 40px; background: none; border: none; border-radius: 50%;
+            color: rgba(255, 255, 255, 0.7); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.2s, color 0.2s;
         }
+        #password-toggle:hover { color: #ffffff; }
+        #password-toggle:active { background-color: rgba(255, 255, 255, 0.1); }
         .btn {
             flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border: none;
             border-radius: 4px; font-size: 1rem; font-weight: 500; cursor: pointer;
@@ -48,7 +61,10 @@
         }
         .btn:disabled { background-color: #555 !important; color: #999; cursor: not-allowed; opacity: 0.7; }
         .btn-primary-action { background-color: var(--primary-color); color: #000000; }
-        .btn-primary-action:hover:not(:disabled) { background-color: #01bfa5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+        .btn-primary-action:hover:not(:disabled) {
+            background-color: #66fff2;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+        }
         .action-buttons { display: flex; gap: 1rem; }
         .action-icon-btn {
             position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; background-color: transparent; border: none; border-radius: 50%; 
@@ -67,20 +83,17 @@
         #notification.show { bottom: 30px; }
         #notification.error { background-color: var(--error-color); color: #000; }
         .smart-container {
-            position: relative; background-color: #2c2c2c; border: 1px solid #444;
-            border-radius: 4px; transition: border-color 0.4s ease-out, box-shadow 0.4s ease-out;
+            position: relative; background-color: var(--input-bg);
+            border-radius: 4px; transition: background-color 0.3s, box-shadow 0.3s;
         }
-        .smart-container:focus-within {
-            border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.3);
-        }
+        .smart-container:not(.output-container):hover { background-color: var(--input-bg-hover); }
+        .smart-container:focus-within { background-color: var(--input-bg-focus); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .smart-container.output-container {
-            background-color: #252525; border-color: transparent; color: rgba(255, 255, 255, 0.7);
+            background-color: var(--output-bg); color: rgba(255, 255, 255, 0.7);
         }
-        .smart-container.output-container:focus-within { border-color: transparent; box-shadow: none; }
-        .smart-container.success-glow {
-            border-color: rgba(3, 218, 198, 0.5);
-            box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.5);
-        }
+        .smart-container.output-container:hover { background-color: var(--output-bg); }
+        .smart-container.output-container:focus-within { background-color: var(--output-bg); box-shadow: none; }
+        .smart-container.success-glow { box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.5); }
         .smart-container textarea { border: none; width: 100%; background-color: transparent; }
         .smart-container textarea:focus { box-shadow: none; }
         .file-display {
@@ -139,7 +152,6 @@
         </div>
     </div>
     <div id="notification"></div>
-
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const DOM = {
@@ -156,13 +168,10 @@
             fileOutputName: document.getElementById('file-output-name'), fileOutputSize: document.getElementById('file-output-size'),
             outputActionBtn: document.getElementById('output-action-btn'), notificationEl: document.getElementById('notification'),
         };
-
         const CONFIG = {
             CRYPTO: { SALT_LENGTH: 16, IV_LENGTH: 12, PBKDF2_ITERATIONS: 100000 },
             MODES: { TEXT: 'text', FILE: 'file', ENCRYPT: 'encrypt', DECRYPT: 'decrypt' },
             ICONS: {
-                DEFAULT: 'description', IMAGE: 'image', PDF: 'picture_as_pdf', ARCHIVE: 'folder_zip', 
-                AUDIO: 'audio_file', VIDEO: 'video_file', ENCRYPTED: 'shield',
                 COPY: 'content_copy', DOWNLOAD: 'download', ATTACH: 'attach_file', REMOVE: 'close', SUCCESS: 'check'
             },
             FILE_TYPE_ICONS: new Map([
@@ -174,15 +183,13 @@
                 ['font_download', ['ttf', 'otf', 'woff', 'woff2']],
             ])
         };
-
         let state = { inputType: CONFIG.MODES.TEXT, processedFileBuffer: null, processedFileName: '' };
+        let notificationTimer = null;
 
         const clearResults = () => {
             DOM.textOutput.value = '';
-            DOM.fileOutputName.textContent = 'Result will appear here';
-            DOM.fileOutputSize.textContent = '';
-            state.processedFileBuffer = null;
-            state.processedFileName = '';
+            DOM.fileOutputName.textContent = 'Result will appear here'; DOM.fileOutputSize.textContent = '';
+            state.processedFileBuffer = null; state.processedFileName = '';
         };
 
         const updateDisplays = () => {
@@ -192,28 +199,22 @@
             DOM.fileInputDisplay.style.display = isFile ? 'flex' : 'none';
             DOM.textOutput.style.display = isFile ? 'none' : 'block';
             DOM.fileOutputDisplay.style.display = isFile ? 'flex' : 'none';
-
             const inputBtnIcon = DOM.inputActionBtn.querySelector('i');
             if (isFile) {
-                inputBtnIcon.textContent = CONFIG.ICONS.REMOVE;
-                DOM.inputActionBtn.title = 'Remove File';
+                inputBtnIcon.textContent = CONFIG.ICONS.REMOVE; DOM.inputActionBtn.title = 'Remove File';
                 DOM.fileInputIcon.textContent = getSmartFileIcon(file.name);
                 DOM.fileInputName.textContent = file.name;
                 DOM.fileInputSize.textContent = formatFileSize(file.size);
             } else {
-                inputBtnIcon.textContent = CONFIG.ICONS.ATTACH;
-                DOM.inputActionBtn.title = 'Attach File';
+                inputBtnIcon.textContent = CONFIG.ICONS.ATTACH; DOM.inputActionBtn.title = 'Attach File';
             }
-
             const outputBtnIcon = DOM.outputActionBtn.querySelector('i');
             outputBtnIcon.textContent = isFile ? CONFIG.ICONS.DOWNLOAD : CONFIG.ICONS.COPY;
             DOM.outputActionBtn.title = isFile ? 'Download Result' : 'Copy Result';
         };
 
         const formatFileSize = (bytes) => {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            if (bytes === 0) return '0 Bytes'; const k = 1024; const sizes = ['Bytes', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         };
@@ -227,10 +228,10 @@
         };
 
         const showNotification = (message, type = 'success') => {
-            DOM.notificationEl.textContent = message;
-            DOM.notificationEl.className = type === 'error' ? 'error' : '';
+            clearTimeout(notificationTimer);
+            DOM.notificationEl.textContent = message; DOM.notificationEl.className = type === 'error' ? 'error' : '';
             DOM.notificationEl.classList.add('show');
-            setTimeout(() => DOM.notificationEl.classList.remove('show'), 3000);
+            notificationTimer = setTimeout(() => DOM.notificationEl.classList.remove('show'), 3000);
         };
 
         const setButtonsLoading = (isLoading, clickedBtn = null) => {
@@ -239,14 +240,8 @@
                 btn.disabled = isLoading;
                 if (!btn.dataset.originalText) btn.dataset.originalText = textSpan.textContent;
                 if (!btn.dataset.originalIcon) btn.dataset.originalIcon = icon.textContent;
-
-                if (isLoading && btn === clickedBtn) {
-                    icon.textContent = 'hourglass_top';
-                    textSpan.textContent = 'Processing';
-                } else if (!isLoading) {
-                    icon.textContent = btn.dataset.originalIcon;
-                    textSpan.textContent = btn.dataset.originalText;
-                }
+                if (isLoading && btn === clickedBtn) { icon.textContent = 'hourglass_top'; textSpan.textContent = 'Processing'; } 
+                else if (!isLoading) { icon.textContent = btn.dataset.originalIcon; textSpan.textContent = btn.dataset.originalText; }
             });
         };
 
@@ -256,8 +251,7 @@
         };
 
         const triggerButtonSuccess = (btn) => {
-            const icon = btn.querySelector('i');
-            if (!icon) return;
+            const icon = btn.querySelector('i'); if (!icon) return;
             const originalIcon = icon.textContent;
             btn.classList.add('success');
             icon.textContent = CONFIG.ICONS.SUCCESS;
@@ -279,22 +273,16 @@
                 }
                 return result.buffer;
             },
-            getKey: async (password, salt) => {
-                const keyMaterial = await window.crypto.subtle.importKey('raw', new TextEncoder().encode(password), { name: 'PBKDF2' }, false, ['deriveKey']);
-                return window.crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: CONFIG.CRYPTO.PBKDF2_ITERATIONS, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+            getKey: async (p, s) => {
+                const k = await window.crypto.subtle.importKey('raw', new TextEncoder().encode(p), { name: 'PBKDF2' }, false, ['deriveKey']);
+                return window.crypto.subtle.deriveKey({ name: 'PBKDF2', salt: s, iterations: CONFIG.CRYPTO.PBKDF2_ITERATIONS, hash: 'SHA-256' }, k, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
             },
-            readFileAsArrayBuffer: (file) => file.arrayBuffer(),
-            triggerFileDownload: (buffer, filename) => {
-                if (!buffer || !filename) return showNotification('No file to download.', 'error');
-                const blob = new Blob([buffer], { type: 'application/octet-stream' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+            readFileAsArrayBuffer: (f) => f.arrayBuffer(),
+            triggerFileDownload: (b, f) => {
+                if (!b || !f) return showNotification('No file to download.', 'error');
+                const bl = new Blob([b], { type: 'application/octet-stream' }); const u = URL.createObjectURL(bl);
+                const a = document.createElement('a'); a.href = u; a.download = f;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u);
             }
         };
 
@@ -329,96 +317,77 @@
             }
         };
 
-        const encryptText = async (password) => {
-            const plaintext = DOM.textInput.value;
-            if (!plaintext) throw new Error('Text input is required.');
-            const salt = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.SALT_LENGTH));
+        const encryptText = async (p) => {
+            const pt = DOM.textInput.value; if (!pt) throw new Error('Text input is required.');
+            const s = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.SALT_LENGTH));
             const iv = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.IV_LENGTH));
-            const key = await crypto.getKey(password, salt);
-            const encryptedContent = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(plaintext));
-            DOM.textOutput.value = `${crypto.arrayBufferToBase64(salt)}::${crypto.arrayBufferToBase64(iv)}::${crypto.arrayBufferToBase64(encryptedContent)}`;
+            const k = await crypto.getKey(p, s);
+            const ec = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, k, new TextEncoder().encode(pt));
+            DOM.textOutput.value = `${crypto.arrayBufferToBase64(s)}::${crypto.arrayBufferToBase64(iv)}::${crypto.arrayBufferToBase64(ec)}`;
         };
-
-        const encryptFile = async (password) => {
-            const file = DOM.fileInput.files[0];
-            if (!file) throw new Error('File input is required.');
-            if (file.size === 0) throw new Error('Cannot process an empty file.');
-            const fileBuffer = await crypto.readFileAsArrayBuffer(file);
-            const header = { fn: file.name };
-            const headerBytes = new TextEncoder().encode(JSON.stringify(header));
-            const headerLengthBytes = new Uint8Array(4);
-            new DataView(headerLengthBytes.buffer).setUint32(0, headerBytes.byteLength, false);
-            const salt = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.SALT_LENGTH));
+        const encryptFile = async (p) => {
+            const f = DOM.fileInput.files[0]; if (!f) throw new Error('File input is required.');
+            if (f.size === 0) throw new Error('Cannot process an empty file.');
+            const fb = await crypto.readFileAsArrayBuffer(f); const h = { fn: f.name };
+            const hb = new TextEncoder().encode(JSON.stringify(h)); const hlb = new Uint8Array(4);
+            new DataView(hlb.buffer).setUint32(0, hb.byteLength, false);
+            const s = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.SALT_LENGTH));
             const iv = window.crypto.getRandomValues(new Uint8Array(CONFIG.CRYPTO.IV_LENGTH));
-            const key = await crypto.getKey(password, salt);
-            const encryptedContent = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, fileBuffer);
-            state.processedFileBuffer = crypto.concatArrayBuffers(headerLengthBytes.buffer, headerBytes.buffer, salt.buffer, iv.buffer, encryptedContent);
-            state.processedFileName = `${file.name}.enc`;
+            const k = await crypto.getKey(p, s);
+            const ec = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, k, fb);
+            state.processedFileBuffer = crypto.concatArrayBuffers(hlb.buffer, hb.buffer, s.buffer, iv.buffer, ec);
+            state.processedFileName = `${f.name}.enc`;
             DOM.fileOutputIcon.textContent = getSmartFileIcon(state.processedFileName);
             DOM.fileOutputName.textContent = state.processedFileName;
             DOM.fileOutputSize.textContent = formatFileSize(state.processedFileBuffer.byteLength);
         };
-
-        const decryptText = async (password) => {
-            const ciphertextStr = DOM.textInput.value;
-            if (!ciphertextStr) throw new Error('Encrypted text required.');
-            const parts = ciphertextStr.split('::');
-            if (parts.length !== 3) throw new Error('Invalid format.');
-            const [salt, iv, ciphertext] = parts.map(crypto.base64ToArrayBuffer);
-            const key = await crypto.getKey(password, salt);
-            const decryptedContent = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
-            DOM.textOutput.value = new TextDecoder().decode(decryptedContent);
+        const decryptText = async (p) => {
+            const ct = DOM.textInput.value; if (!ct) throw new Error('Encrypted text required.');
+            const pts = ct.split('::'); if (pts.length !== 3) throw new Error('Invalid format.');
+            const s = crypto.base64ToArrayBuffer(pts[0]), iv = crypto.base64ToArrayBuffer(pts[1]), c = crypto.base64ToArrayBuffer(pts[2]);
+            const k = await crypto.getKey(p, s);
+            const dc = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv }, k, c);
+            DOM.textOutput.value = new TextDecoder().decode(dc);
         };
-
-        const decryptFile = async (password) => {
-            const file = DOM.fileInput.files[0];
-            if (!file) throw new Error('Encrypted file required.');
-            const fileBuffer = await crypto.readFileAsArrayBuffer(file);
-            if (fileBuffer.byteLength < 4) throw new Error('Invalid file: too short.');
-            const headerLength = new DataView(fileBuffer.slice(0, 4)).getUint32(0, false);
-            const headerEnd = 4 + headerLength;
-            if (fileBuffer.byteLength < headerEnd) throw new Error('Invalid file: header corrupt.');
-            const headerBytes = fileBuffer.slice(4, headerEnd);
-            const header = JSON.parse(new TextDecoder().decode(headerBytes));
-            const salt = fileBuffer.slice(headerEnd, headerEnd + CONFIG.CRYPTO.SALT_LENGTH);
-            const iv = fileBuffer.slice(headerEnd + CONFIG.CRYPTO.SALT_LENGTH, headerEnd + CONFIG.CRYPTO.SALT_LENGTH + CONFIG.CRYPTO.IV_LENGTH);
-            const ciphertext = fileBuffer.slice(headerEnd + CONFIG.CRYPTO.SALT_LENGTH + CONFIG.CRYPTO.IV_LENGTH);
-            const key = await crypto.getKey(password, salt);
-            state.processedFileBuffer = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
-            state.processedFileName = header.fn || 'decrypted_file';
+        const decryptFile = async (p) => {
+            const f = DOM.fileInput.files[0]; if (!f) throw new Error('Encrypted file required.');
+            const fb = await crypto.readFileAsArrayBuffer(f);
+            if (fb.byteLength < 4) throw new Error('Invalid file: too short.');
+            const hl = new DataView(fb.slice(0, 4)).getUint32(0, false); const he = 4 + hl;
+            if (fb.byteLength < he) throw new Error('Invalid file: header corrupt.');
+            const hb = fb.slice(4, he); const h = JSON.parse(new TextDecoder().decode(hb));
+            const s = fb.slice(he, he + CONFIG.CRYPTO.SALT_LENGTH);
+            const iv = fb.slice(he + CONFIG.CRYPTO.SALT_LENGTH, he + CONFIG.CRYPTO.SALT_LENGTH + CONFIG.CRYPTO.IV_LENGTH);
+            const c = fb.slice(he + CONFIG.CRYPTO.SALT_LENGTH + CONFIG.CRYPTO.IV_LENGTH);
+            const k = await crypto.getKey(p, s);
+            state.processedFileBuffer = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv }, k, c);
+            state.processedFileName = h.fn || 'decrypted_file';
             DOM.fileOutputIcon.textContent = getSmartFileIcon(state.processedFileName);
             DOM.fileOutputName.textContent = state.processedFileName;
             DOM.fileOutputSize.textContent = formatFileSize(state.processedFileBuffer.byteLength);
         };
-
         const onOutputAction = () => {
             if (state.inputType === CONFIG.MODES.TEXT) {
-                const textToCopy = DOM.textOutput.value;
-                if (!textToCopy) return showNotification('Nothing to copy.', 'error');
-                const temp = document.createElement("textarea");
-                temp.value = textToCopy;
+                const textToCopy = DOM.textOutput.value; if (!textToCopy) return showNotification('Nothing to copy.', 'error');
+                const temp = document.createElement("textarea"); temp.value = textToCopy;
                 temp.style.position = 'absolute'; temp.style.left = '-9999px';
-                document.body.appendChild(temp);
-                let success = false;
-                try { temp.select(); success = document.execCommand('copy'); }
+                document.body.appendChild(temp); let success = false;
+                try { temp.select(); success = document.execCommand('copy'); } 
                 catch (err) { console.error('Copy failed', err); }
                 document.body.removeChild(temp);
-                if (success) { showNotification('Copied!'); triggerButtonSuccess(DOM.outputActionBtn); }
+                if (success) { showNotification('Copied!'); triggerButtonSuccess(DOM.outputActionBtn); } 
                 else { showNotification('Copy failed!', 'error'); }
-            } else {
-                crypto.triggerFileDownload(state.processedFileBuffer, state.processedFileName);
-                triggerButtonSuccess(DOM.outputActionBtn);
-            }
+            } else { crypto.triggerFileDownload(state.processedFileBuffer, state.processedFileName); triggerButtonSuccess(DOM.outputActionBtn); }
         };
-
+    
         DOM.inputActionBtn.addEventListener('click', () => {
-            if (state.inputType === CONFIG.MODES.TEXT) { DOM.fileInput.click(); }
+            if (state.inputType === CONFIG.MODES.TEXT) { DOM.fileInput.click(); } 
             else { state.inputType = CONFIG.MODES.TEXT; DOM.fileInput.value = null; updateDisplays(); clearAll(); }
         });
         DOM.fileInput.addEventListener('change', onFileChange);
         DOM.passwordToggle.addEventListener('click', () => {
             const pass = DOM.password, icon = DOM.passwordToggle.querySelector('i');
-            if (pass.type === 'password') { pass.type = 'text'; icon.textContent = 'visibility_off'; }
+            if (pass.type === 'password') { pass.type = 'text'; icon.textContent = 'visibility_off'; } 
             else { pass.type = 'password'; icon.textContent = 'visibility'; }
         });
         DOM.mainCard.addEventListener('dragover', (e) => { e.preventDefault(); DOM.mainCard.classList.add('dragover'); });
